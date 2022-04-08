@@ -22,17 +22,23 @@ public class DataUtilitiesTest extends TestCase {
 	}
 	
 	@Test
-	public void testCalculateColumnTotalReturnsZeroForInvalidData() {
+	public void testCalculateColumnTotalReturnsZeroForInvalidColumn() {
 		DefaultKeyedValues2D defaultKeyedValues2D = new DefaultKeyedValues2D();
+		defaultKeyedValues2D.addValue(10, 0, 0);
+		defaultKeyedValues2D.addValue(5, 1, 0);
+		defaultKeyedValues2D.addValue(20, 2, 0);
 		assertEquals("Invalid column so the default total of zero should be returned", 0.0, 
 				DataUtilities.calculateColumnTotal(defaultKeyedValues2D, -1));
 	}
 		
 	@Test
-	public void testCalculateColumnTotalReturnsZeroForEmptyData() {
+	public void testCalculateColumnTotalReturnsZeroWhenColumnExceedsNumberOfColumns() {
 		DefaultKeyedValues2D defaultKeyedValues2D = new DefaultKeyedValues2D();
-		assertEquals("No data exists so the default total of zero should be returned", 0.0, 
-				DataUtilities.calculateColumnTotal(defaultKeyedValues2D, 0));
+		defaultKeyedValues2D.addValue(10, 0, 0);
+		defaultKeyedValues2D.addValue(5, 1, 0);
+		defaultKeyedValues2D.addValue(20, 2, 0);
+		assertEquals("No data exists for that column so the default total of zero should be returned", 0.0, 
+				DataUtilities.calculateColumnTotal(defaultKeyedValues2D, 56));
 	}
 	
 	@Test
@@ -57,17 +63,23 @@ public class DataUtilitiesTest extends TestCase {
 	}
 	
 	@Test
-	public void testCalculateRowTotalReturnsZeroForInvalidData() {
+	public void testCalculateRowTotalReturnsZeroForInvalidRow() {
 		DefaultKeyedValues2D defaultKeyedValues2D = new DefaultKeyedValues2D();
+		defaultKeyedValues2D.addValue(15, 0, 0);
+		defaultKeyedValues2D.addValue(3, 0, 1);
+		defaultKeyedValues2D.addValue(7, 0, 2);
 		assertEquals("No data exists so the default total of zero should be returned", 0.0, 
 				DataUtilities.calculateRowTotal(defaultKeyedValues2D, -1));
 	}
 	
 	@Test
-	public void testCalculateRowTotalReturnsZeroForEmptyData() {
+	public void testCalculateRowTotalReturnsZeroWhenRowExceedsNumberOfRows() {
 		DefaultKeyedValues2D defaultKeyedValues2D = new DefaultKeyedValues2D();
-		assertEquals("No data exists so the default total of zero should be returned", 0.0, 
-				DataUtilities.calculateRowTotal(defaultKeyedValues2D, 0));
+		defaultKeyedValues2D.addValue(15, 0, 0);
+		defaultKeyedValues2D.addValue(3, 0, 1);
+		defaultKeyedValues2D.addValue(7, 0, 2);
+		assertEquals("No data exists for that row so the default total of zero should be returned", 0.0, 
+				DataUtilities.calculateRowTotal(defaultKeyedValues2D, 56));
 	}
 	
 	@Test
@@ -100,13 +112,13 @@ public class DataUtilitiesTest extends TestCase {
 	
 	@Test
 	public void testCreateNumberArrayCreatesPopulatedNumberArrayFromValidDoubleArray() {
-			double[] doubleArray = {25.0, 0.2, 19.99, 20};
+			double[] doubleArray = {25.0, 0.2, 19.99, 20.0};
 			Number[] numberArray = DataUtilities.createNumberArray(doubleArray);
 			assertEquals("numberArray should be of size 4", 4, numberArray.length);
 			assertEquals(25.0, numberArray[0]);
 			assertEquals(0.2, numberArray[1]);
 			assertEquals(19.99, numberArray[2]);
-			assertEquals(20.00, numberArray[3]);
+			assertEquals(20.0, numberArray[3]);
 	}
 	
 	@Test
